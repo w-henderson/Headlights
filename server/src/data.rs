@@ -57,9 +57,7 @@ impl Data {
         self.datasets
             .iter()
             .filter(move |d| {
-                d.name.to_lowercase().contains(&query)
-                    && d.get_point(start).is_some()
-                    && d.get_point(end).is_some()
+                d.name.to_lowercase().contains(&query) && d.start <= start && d.end >= end
             })
             .take(limit)
     }
