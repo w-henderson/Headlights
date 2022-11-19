@@ -1,7 +1,26 @@
-mod data;
+pub mod data;
+pub mod handlers;
+
+use crate::data::Data;
+
+use humphrey::App;
+
+use std::sync::RwLock;
+
+pub struct State {
+    data: RwLock<Data>,
+}
 
 fn main() {
-    let data = data::Data::load(concat!(env!("CARGO_MANIFEST_DIR"), "/datasets")).unwrap();
+    let state = State {
+        data: RwLock::new(Data::load(concat!(env!("CARGO_MANIFEST_DIR"), "/datasets")).unwrap()),
+    };
 
-    println!("{:?}", data);
+    let app: App<State> = App::new_with_config(8, state)
+        .with_route("/api/v1/start", handlers::start)
+        .with_route("/api/v1/data/series", handlers::series)
+        .with_route("/api/v1/data/point", handlers::point)
+        .with_route("/api/v1/search", handlers::search);
+
+    app.run("0.0.0.0:80").unwrap();
 }

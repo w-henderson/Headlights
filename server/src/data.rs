@@ -9,6 +9,7 @@ pub struct Data {
 
 #[derive(Debug)]
 pub struct Dataset {
+    id: String,
     name: String,
     y_axis_name: String,
     start: u16,
@@ -41,6 +42,8 @@ impl Data {
 
 impl Dataset {
     pub fn load(root: impl AsRef<Path>) -> Option<Dataset> {
+        let id = root.as_ref().file_name()?.to_str()?.to_string();
+
         let meta = root.as_ref().join("meta.json");
         let data = root.as_ref().join("data.csv");
 
@@ -53,11 +56,34 @@ impl Dataset {
         let end = meta["end"].as_number()? as u16;
 
         Some(Dataset {
+            id,
             name,
             y_axis_name,
             start,
             end,
             data: DataSource::Filesystem(data),
         })
+    }
+
+    pub fn load_into_memory(&mut self) -> Option<()> {
+        if let DataSource::Filesystem(path) = &self.data {
+            let mut data = Vec::new();
+
+            let raw_data = std::fs::read_to_string(path).ok()?;
+            let lines = raw_data.lines();
+
+            for record in lines {
+                let mut record = record.split(',');
+
+                let year = record.next()?.parse().ok()?;
+                let value = record.next()?.parse().ok()?;
+
+                data.push((year, value));
+            }
+
+            self.data = DataSource::Memory(data);
+        }
+
+        Some(())
     }
 }
