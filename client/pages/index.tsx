@@ -68,24 +68,30 @@ export default function Home() {
 
 	const [datasetID, setID] = React.useState('');
 	const [datasetName, setName] = React.useState('loading');
-	const [startYear, setStart] = React.useState<number>(2000);
+	const [startYear, setStart] = React.useState<number>(1990);
 	const [endYear, setEnd] = React.useState<number>(2004);
 	const [question, setQuestion] = React.useState<number>();
 
 	React.useEffect(() => {
+		let ignore = false;
 		axios
 			.get<start>(new URL('/api/v1/start', API_URL).toString())
 			.then(response => {
-				console.log(response.data);
-				setID(response.data.id);
-				console.log(`setting name`);
-				setName(response.data.name);
-				setStart(response.data.start);
-				setEnd(response.data.end);
-				setQuestion(response.data.question);
-				setYAxis(response.data.yAxisName);
+				if (!ignore) {
+					console.log(response.data);
+					setID(response.data.id);
+					console.log(`setting name`);
+					setName(response.data.name);
+					setStart(response.data.start);
+					setEnd(response.data.end);
+					setQuestion(response.data.question);
+					setYAxis(response.data.yAxisName);
+				}
 			})
 			.catch(error => console.error('error in start: ' + error));
+		return () => {
+			ignore = true;
+		};
 	}, []);
 
 	const [searchDatasetID, setSearchID] = React.useState('');

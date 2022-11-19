@@ -20,20 +20,26 @@ export default function SearchBar({
 	const [inputValue, setInputValue] = useState('');
 	const [value, setValue] = useState<Dataset>();
 	useEffect(() => {
-		if (inputValue != '') {
-			axios
-				.get<Dataset[]>(new URL('/api/v1/search', API_URL).toString(), {
-					params: {
-						q: inputValue,
-						start: start,
-						end: end,
-					},
-				})
-				.then(response => {
+		let ignore = false;
+		// if (inputValue != '') {
+		axios
+			.get<Dataset[]>(new URL('/api/v1/search', API_URL).toString(), {
+				params: {
+					q: inputValue,
+					start: start,
+					end: end,
+				},
+			})
+			.then(response => {
+				if (!ignore) {
 					setOptions(response.data);
-				});
-		}
-	}, [inputValue]);
+				}
+			});
+		return () => {
+			ignore = true;
+		};
+		// }
+	}, [inputValue, start, end]);
 	return (
 		<Autocomplete
 			filterOptions={x => x}
