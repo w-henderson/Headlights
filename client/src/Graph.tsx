@@ -1,3 +1,4 @@
+import axios from 'axios';
 import {
 	CategoryScale,
 	Chart as ChartJS,
@@ -8,9 +9,12 @@ import {
 	Title,
 	Tooltip,
 } from 'chart.js';
+import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import flattenDataSeries from './flattenDataSeries';
 
 import theme from './theme';
+import { API_URL, DataSeries } from './types';
 
 ChartJS.register(
 	CategoryScale,
@@ -22,16 +26,30 @@ ChartJS.register(
 );
 
 export default function Graph({
-	data,
-	years,
-	name,
-	yAxisName,
+	id,
+	start,
+	end,
 }: {
-	data: number[];
-	years: number[];
-	name: string;
-	yAxisName: string;
+	id: string;
+	start: number;
+	end: number;
 }) {
+	const [dataSeries, setDataSeries] = useState<DataSeries>();
+	const [years, data] = flattenDataSeries(dataSeries ? dataSeries.points : []);
+	useEffect(() => {
+		axios
+			.get<DataSeries>(new URL('/api/v1/data/series', API_URL).toString(), {
+				params: {
+					id,
+					start,
+					end,
+				},
+			})
+			.then(response => {
+				setDataSeries(response.data);
+			})
+			.catch(error => console.error('error in requesting series: ' + error));
+	}, [id, start, end]);
 	const chartData: ChartData<'line', number[], number> = {
 		labels: years,
 		datasets: [
@@ -42,15 +60,6 @@ export default function Graph({
 			},
 		],
 	};
-	const options = {
-		responsive: true,
-		plugins: {
-			title: {
-				display: true,
-				text: name,
-			},
-		},
-	};
 	return (
 		<Line
 			data={chartData}
@@ -59,14 +68,14 @@ export default function Graph({
 				plugins: {
 					title: {
 						display: true,
-						text: name,
+						text: dataSeries?.name,
 					},
 				},
 				scales: {
 					y: {
 						title: {
 							display: true,
-							text: yAxisName,
+							text: dataSeries?.yAxisName,
 						},
 					},
 				},

@@ -41,6 +41,7 @@ type start = {
 	start: number;
 	end: number;
 	question: number;
+	yAxisName: string;
 };
 
 const example: DataPoint[] = [
@@ -63,13 +64,6 @@ const example: DataPoint[] = [
 ];
 
 export default function Home() {
-	const [dataValues, setData] = React.useState<number[]>(
-		flattenDataSeries(example)[1]
-	);
-	const [years, setYears] = React.useState<number[]>(
-		flattenDataSeries(example)[0]
-	);
-
 	const [yAxisName, setYAxis] = React.useState('');
 
 	const [datasetID, setID] = React.useState('');
@@ -88,58 +82,14 @@ export default function Home() {
 				setStart(response.data.start);
 				setEnd(response.data.end);
 				setQuestion(response.data.question);
+				setYAxis(response.data.yAxisName);
 			})
 			.catch(error => console.error('error in start: ' + error));
 	}, []);
 
-	React.useEffect(() => {
-		axios
-			.get<DataSeries>(new URL('/api/v1/data/series', API_URL).toString(), {
-				params: {
-					id: datasetID,
-					start: startYear,
-					end: endYear,
-				},
-			})
-			.then(response => {
-				console.log(response.data);
-				const [y, dv] = flattenDataSeries(response.data.points);
-				setYears(y);
-				setData(dv);
-				setYAxis(response.data.yAxisName);
-			})
-			.catch(error => console.error('error in requesting series: ' + error));
-	}, [datasetID, startYear, endYear]);
-
-	const [searchDataValues, setSearchData] = React.useState<number[]>([]);
-	const [searchYears, setSearchYears] = React.useState<number[]>([]);
-
-	const [searchYAxisName, setSearchYAxis] = React.useState('');
-
 	const [searchDatasetID, setSearchID] = React.useState('');
 	const [searchDatasetName, setSearchName] = React.useState('loading');
-	const [searchQuestion, setSearchQuestion] = React.useState<number>();
 
-	React.useEffect(() => {
-		if (searchDatasetID !== '') {
-			axios
-				.get<DataSeries>(new URL('/api/v1/data/series', API_URL).toString(), {
-					params: {
-						id: searchDatasetID,
-						start: startYear,
-						end: endYear,
-					},
-				})
-				.then(response => {
-					console.log(response.data);
-					const [y, dv] = flattenDataSeries(response.data.points);
-					setSearchYears(y);
-					setSearchData(dv);
-					setSearchYAxis(response.data.yAxisName);
-				})
-				.catch(error => console.error('error in requesting series: ' + error));
-		}
-	}, [searchDatasetID, startYear, endYear]);
 	return (
 		<>
 			<Container maxWidth='lg' sx={{ p: 5 }}>
@@ -161,25 +111,17 @@ export default function Home() {
 				<Grid xs={12} md={9} lg={6}>
 					<Typography variant='h5'>{datasetName}</Typography>
 					{datasetID ? (
-						<Graph
-							data={dataValues}
-							name={datasetName}
-							years={years}
-							yAxisName={yAxisName}
-						/>
+						<Graph id={datasetID} start={startYear} end={endYear} />
 					) : (
 						<Skeleton height='100%' />
 					)}
 				</Grid>
 				<Grid xs={12} md={9} lg={6}>
 					<Typography variant='h5'>{searchDatasetName}</Typography>
-					{searchDatasetID && (
-						<Graph
-							data={searchDataValues}
-							name={searchDatasetName}
-							years={searchYears}
-							yAxisName={searchYAxisName}
-						/>
+					{searchDatasetID ? (
+						<Graph id={searchDatasetID} start={startYear} end={endYear} />
+					) : (
+						''
 					)}
 				</Grid>
 			</Grid>
