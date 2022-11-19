@@ -6,13 +6,15 @@ use crate::data::Data;
 
 use humphrey::App;
 
+use std::sync::Mutex;
+
 pub struct State {
-    data: Data,
+    data: Mutex<Data>,
 }
 
 fn main() {
     let state = State {
-        data: Data::load(concat!(env!("CARGO_MANIFEST_DIR"), "/datasets")).unwrap(),
+        data: Mutex::new(Data::load(concat!(env!("CARGO_MANIFEST_DIR"), "/datasets")).unwrap()),
     };
 
     let app: App<State> = App::new_with_config(8, state)

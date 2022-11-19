@@ -2,9 +2,9 @@ use crate::data::{Data, Dataset};
 
 use rand::prelude::*;
 
-pub fn get_random_dataset(data: &Data) -> Dataset {
+pub fn get_random_dataset(data: &mut Data) -> &Dataset {
     let index = rand::thread_rng().gen_range(0..data.datasets.len());
-    let mut dataset = data.datasets[index].clone();
+    let dataset = &mut data.datasets[index];
     dataset.load_into_memory();
     dataset
 }

@@ -38,6 +38,12 @@ impl Data {
 
         Some(Data { datasets })
     }
+
+    pub fn get_dataset(&mut self, id: impl AsRef<str>) -> Option<&Dataset> {
+        let dataset = self.datasets.iter_mut().find(|d| d.id == id.as_ref())?;
+        dataset.load_into_memory();
+        Some(dataset)
+    }
 }
 
 impl Dataset {
@@ -85,5 +91,27 @@ impl Dataset {
         }
 
         Some(())
+    }
+
+    pub fn get_point(&self, year: u16) -> Option<f64> {
+        if let DataSource::Memory(data) = &self.data {
+            data.iter().find(|(y, _)| *y == year).map(|(_, v)| *v)
+        } else {
+            None
+        }
+    }
+
+    pub fn get_range(&self, start: u16, end: u16) -> Vec<(u16, f64)> {
+        let mut result = Vec::with_capacity((end - start) as usize);
+
+        if let DataSource::Memory(data) = &self.data {
+            for (year, value) in data {
+                if *year >= start && *year <= end {
+                    result.push((*year, *value));
+                }
+            }
+        }
+
+        result
     }
 }
