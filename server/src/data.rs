@@ -44,6 +44,14 @@ impl Data {
         dataset.load_into_memory();
         Some(dataset)
     }
+
+    pub fn search(&self, query: impl AsRef<str>) -> impl Iterator<Item = &Dataset> {
+        let query = query.as_ref().to_lowercase();
+
+        self.datasets
+            .iter()
+            .filter(move |d| d.name.to_lowercase().contains(&query))
+    }
 }
 
 impl Dataset {

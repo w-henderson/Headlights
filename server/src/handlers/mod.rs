@@ -1,4 +1,5 @@
 mod point;
+mod search;
 mod series;
 mod start;
 
@@ -6,6 +7,7 @@ use crate::State;
 
 use humphrey::http::{Request, Response, StatusCode};
 use humphrey_json::prelude::*;
+use humphrey_json::Value;
 
 use std::sync::Arc;
 
@@ -69,7 +71,26 @@ pub fn point(request: Request, state: Arc<State>) -> Response {
 }
 
 pub fn search(request: Request, state: Arc<State>) -> Response {
-    error_context(|| None)
+    error_context(|| {
+        let (query, _start, _end) = search::parse_query_string(&request.query)?;
+
+        let data = state.data.lock().unwrap();
+        let results = data.search(query);
+
+        let result = results
+            .map(|dataset| {
+                json!({
+                    "type": "dataset",
+                    "id": &dataset.id,
+                    "name": &dataset.name
+                })
+            })
+            .collect::<Vec<_>>();
+
+        let json = Value::Array(result);
+
+        Some(Response::new(StatusCode::OK, json.serialize()))
+    })
 }
 
 fn error_context(f: impl Fn() -> Option<Response>) -> Response {
