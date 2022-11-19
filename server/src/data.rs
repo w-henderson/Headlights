@@ -1,3 +1,6 @@
+use crate::headlines::Headline;
+
+use humphrey_json::prelude::*;
 use humphrey_json::Value;
 
 use std::path::{Path, PathBuf};
@@ -5,6 +8,7 @@ use std::path::{Path, PathBuf};
 #[derive(Debug)]
 pub struct Data {
     pub datasets: Vec<Dataset>,
+    pub headlines: Vec<Headline>,
 }
 
 #[derive(Debug, Clone)]
@@ -23,9 +27,15 @@ pub enum DataSource {
     Memory(Vec<(u16, f64)>),
 }
 
+pub trait DataThing {
+    fn name(&self) -> &str;
+    fn valid_for_date_range(&self, start: u16, end: u16) -> bool;
+    fn serialize(&self) -> Value;
+}
+
 impl Data {
-    pub fn load(root: impl AsRef<Path>) -> Option<Data> {
-        let root = root.as_ref();
+    pub fn load(datasets: impl AsRef<Path>, headlines: impl AsRef<Path>) -> Option<Data> {
+        let root = datasets.as_ref();
         let mut datasets = Vec::new();
 
         for entry in root.read_dir().ok()?.flatten() {
@@ -36,7 +46,12 @@ impl Data {
             }
         }
 
-        Some(Data { datasets })
+        let headlines = Headline::load(headlines)?;
+
+        Some(Data {
+            datasets,
+            headlines,
+        })
     }
 
     pub fn get_dataset(&mut self, id: impl AsRef<str>) -> Option<&Dataset> {
@@ -45,19 +60,25 @@ impl Data {
         Some(dataset)
     }
 
-    pub fn search(
-        &self,
+    pub fn search<'a>(
+        &'a self,
         query: impl AsRef<str>,
         start: u16,
         end: u16,
         limit: usize,
-    ) -> impl Iterator<Item = &Dataset> {
+    ) -> impl Iterator<Item = Box<dyn DataThing + 'a>> {
         let query = query.as_ref().to_lowercase();
 
         self.datasets
             .iter()
+            .map(|d| Box::new(d) as Box<dyn DataThing>)
+            .chain(
+                self.headlines
+                    .iter()
+                    .map(|h| Box::new(h) as Box<dyn DataThing>),
+            )
             .filter(move |d| {
-                d.name.to_lowercase().contains(&query) && d.start <= start && d.end >= end
+                d.name().to_lowercase().contains(&query) && d.valid_for_date_range(start, end)
             })
             .take(limit)
     }
@@ -132,5 +153,43 @@ impl Dataset {
         }
 
         result
+    }
+}
+
+impl DataThing for &Dataset {
+    fn name(&self) -> &str {
+        &self.name
+    }
+
+    fn valid_for_date_range(&self, start: u16, end: u16) -> bool {
+        self.start <= start && self.end >= end
+    }
+
+    fn serialize(&self) -> Value {
+        json!({
+            "type": "dataset",
+            "id": &self.id,
+            "name": &self.name
+        })
+    }
+}
+
+impl DataThing for &Headline {
+    fn name(&self) -> &str {
+        &self.title
+    }
+
+    fn valid_for_date_range(&self, start: u16, end: u16) -> bool {
+        self.year >= start && self.year <= end
+    }
+
+    fn serialize(&self) -> Value {
+        json!({
+            "type": "article",
+            "id": &self.id,
+            "name": &self.title,
+            "source": &self.source,
+            "date": &self.date
+        })
     }
 }

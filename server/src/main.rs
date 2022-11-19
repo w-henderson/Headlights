@@ -1,5 +1,6 @@
 pub mod data;
 pub mod handlers;
+pub mod headlines;
 pub mod query;
 
 use crate::data::Data;
@@ -17,7 +18,13 @@ fn main() {
     println!("[info] loading datasets");
 
     let state = State {
-        data: Mutex::new(Data::load(concat!(env!("CARGO_MANIFEST_DIR"), "/datasets")).unwrap()),
+        data: Mutex::new(
+            Data::load(
+                concat!(env!("CARGO_MANIFEST_DIR"), "/datasets"),
+                concat!(env!("CARGO_MANIFEST_DIR"), "/headlines.json"),
+            )
+            .unwrap(),
+        ),
     };
 
     println!("[info] starting server");
