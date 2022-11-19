@@ -4,6 +4,7 @@ pub mod query;
 
 use crate::data::Data;
 
+use humphrey::http::cors::Cors;
 use humphrey::App;
 
 use std::sync::Mutex;
@@ -18,6 +19,7 @@ fn main() {
     };
 
     let app: App<State> = App::new_with_config(8, state)
+        .with_cors(Cors::wildcard())
         .with_route("/api/v1/start", handlers::start)
         .with_route("/api/v1/data/series", handlers::series)
         .with_route("/api/v1/data/point", handlers::point)

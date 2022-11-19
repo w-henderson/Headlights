@@ -19,7 +19,7 @@ pub fn start(_: Request, state: Arc<State>) -> Response {
         "name": &dataset.name,
         "start": start,
         "end": end,
-        "question": question.to_string()
+        "question": question
     });
 
     Response::new(StatusCode::OK, json.serialize())
