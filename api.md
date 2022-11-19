@@ -8,14 +8,15 @@ Result:
 {
   "id": "123456",
   "name": "Data Something",
-  "time": "1989-1999",
-  "question": "2004"
+  "start": 1989,
+  "end": 1999,
+  "question": 2004
 }
 ```
 
 ## GET `/api/v1/data/series`
 
-Format: `/api/v1/data/series?id=123456&time=1989-1999`
+Format: `/api/v1/data/series?id=123456&start=1989&end=1999`
 
 Result:
 
@@ -52,7 +53,7 @@ Result:
 
 ## GET `/api/v1/search`
 
-Format: `/api/v1/search?q=foo&time=1989-1999`
+Format: `/api/v1/search?q=foo&start=1989&end=1999`
 
 Result:
 
