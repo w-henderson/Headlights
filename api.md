@@ -8,6 +8,7 @@ Result:
 {
   "id": "123456",
   "name": "Data Something",
+  "yAxisName": "Y Axis Name",
   "start": 1989,
   "end": 1999,
   "question": 2004
@@ -68,7 +69,8 @@ Result:
     "type": "article",
     "id": "123457",
     "name": "Article Something",
-    "source": "The Guardian"
+    "source": "The Guardian",
+    "date": 1668892166
   }
 ]
 ```
