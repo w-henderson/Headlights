@@ -70,6 +70,7 @@ Result:
     "id": "123457",
     "name": "Article Something",
     "source": "The Guardian",
+    "link": "https://...",
     "date": 1668892166
   }
 ]
