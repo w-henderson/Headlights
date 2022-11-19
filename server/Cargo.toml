@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 humphrey = "0.6.4"
 humphrey_json = "0.2.2"
+rand = "0.8.5"

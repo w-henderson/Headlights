@@ -4,20 +4,20 @@ use std::path::{Path, PathBuf};
 
 #[derive(Debug)]
 pub struct Data {
-    datasets: Vec<Dataset>,
+    pub datasets: Vec<Dataset>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Dataset {
-    id: String,
-    name: String,
-    y_axis_name: String,
-    start: u16,
-    end: u16,
-    data: DataSource,
+    pub id: String,
+    pub name: String,
+    pub y_axis_name: String,
+    pub start: u16,
+    pub end: u16,
+    pub data: DataSource,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub enum DataSource {
     Filesystem(PathBuf),
     Memory(Vec<(u16, f64)>),
