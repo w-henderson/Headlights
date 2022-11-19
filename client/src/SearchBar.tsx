@@ -6,11 +6,11 @@ import { API_URL, Dataset } from './types';
 export default function SearchBar({
 	start,
 	end,
-}: // callbackfn,
-{
+	callbackfn,
+}: {
 	start: number;
 	end: number;
-	// callbackfn: (dataset: Dataset) => void;
+	callbackfn: (dataset: Dataset) => void;
 }) {
 	const [options, setOptions] = useState<Dataset[]>([]);
 	const [inputValue, setInputValue] = useState('');
@@ -37,6 +37,7 @@ export default function SearchBar({
 			getOptionLabel={option => option.name}
 			onChange={(event: any, newValue) => {
 				setValue(newValue ? newValue : undefined);
+				newValue && callbackfn(newValue);
 			}}
 			onInputChange={(event, newInputValue) => {
 				setInputValue(newInputValue);

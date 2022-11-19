@@ -106,11 +106,40 @@ export default function Home() {
 				const [y, dv] = flattenDataSeries(response.data.points);
 				setYears(y);
 				setData(dv);
-				setYAxis(response.data.name);
+				setYAxis(response.data.yAxisName);
 			})
 			.catch(error => console.error('error in requesting series: ' + error));
-	}, [datasetID]);
+	}, [datasetID, startYear, endYear]);
 
+	const [searchDataValues, setSearchData] = React.useState<number[]>([]);
+	const [searchYears, setSearchYears] = React.useState<number[]>([]);
+
+	const [searchYAxisName, setSearchYAxis] = React.useState('');
+
+	const [searchDatasetID, setSearchID] = React.useState('');
+	const [searchDatasetName, setSearchName] = React.useState('loading');
+	const [searchQuestion, setSearchQuestion] = React.useState<number>();
+
+	React.useEffect(() => {
+		if (searchDatasetID !== '') {
+			axios
+				.get<DataSeries>(new URL('/api/v1/data/series', API_URL).toString(), {
+					params: {
+						id: searchDatasetID,
+						start: startYear,
+						end: endYear,
+					},
+				})
+				.then(response => {
+					console.log(response.data);
+					const [y, dv] = flattenDataSeries(response.data.points);
+					setSearchYears(y);
+					setSearchData(dv);
+					setSearchYAxis(response.data.yAxisName);
+				})
+				.catch(error => console.error('error in requesting series: ' + error));
+		}
+	}, [searchDatasetID, startYear, endYear]);
 	return (
 		<>
 			<Container maxWidth='lg' sx={{ p: 5 }}>
@@ -119,7 +148,14 @@ export default function Home() {
 						What is {yAxisName} in {question}?
 					</strong>
 				</Typography>
-				<SearchBar start={startYear} end={endYear} />
+				<SearchBar
+					start={startYear}
+					end={endYear}
+					callbackfn={dataset => {
+						setSearchID(dataset.id);
+						setSearchName(dataset.name);
+					}}
+				/>
 			</Container>
 			<Grid container spacing={2} mx={10}>
 				<Grid xs={12} md={9} lg={6}>
@@ -136,7 +172,15 @@ export default function Home() {
 					)}
 				</Grid>
 				<Grid xs={12} md={9} lg={6}>
-					<Typography variant='h2'>Right Column</Typography>
+					<Typography variant='h5'>{searchDatasetName}</Typography>
+					{searchDatasetID && (
+						<Graph
+							data={searchDataValues}
+							name={searchDatasetName}
+							years={searchYears}
+							yAxisName={searchYAxisName}
+						/>
+					)}
 				</Grid>
 			</Grid>
 		</>
