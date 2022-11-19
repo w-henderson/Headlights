@@ -1,4 +1,7 @@
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete, Box, TextField, Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+import TimelineIcon from '@mui/icons-material/Timeline';
+import ArticleIcon from '@mui/icons-material/Article';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { API_URL, Dataset } from './types';
@@ -45,6 +48,25 @@ export default function SearchBar({
 			renderInput={params => (
 				<TextField {...params} label='Search for a dataset' fullWidth />
 			)}
+			renderOption={(props, option) => {
+				return (
+					<li {...props}>
+						<Grid container alignItems={'center'}>
+							<Grid>
+								<Box
+									component={
+										option.type == 'dataset' ? TimelineIcon : ArticleIcon
+									}
+									sx={{ color: 'text.secondary', mr: 2 }}
+								/>
+							</Grid>
+							<Grid xs>
+								<Typography>{option.name}</Typography>
+							</Grid>
+						</Grid>
+					</li>
+				);
+			}}
 		/>
 	);
 }

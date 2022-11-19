@@ -78,6 +78,7 @@ export default function Home() {
 			.then(response => {
 				console.log(response.data);
 				setID(response.data.id);
+				console.log(`setting name`);
 				setName(response.data.name);
 				setStart(response.data.start);
 				setEnd(response.data.end);
