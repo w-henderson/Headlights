@@ -40,6 +40,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.1.3"],\
             ["chart.js", "npm:4.0.1"],\
             ["clsx", "npm:1.2.1"],\
+            ["date-fns", "npm:2.29.3"],\
             ["eslint", "npm:8.28.0"],\
             ["eslint-config-next", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:13.0.4"],\
             ["next", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:13.0.4"],\
@@ -1554,6 +1555,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/damerau-levenshtein-npm-1.0.8-bda7311c69-d240b77575.zip/node_modules/damerau-levenshtein/",\
           "packageDependencies": [\
             ["damerau-levenshtein", "npm:1.0.8"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["date-fns", [\
+        ["npm:2.29.3", {\
+          "packageLocation": "./.yarn/cache/date-fns-npm-2.29.3-fef7e3c72c-e01cf5b62a.zip/node_modules/date-fns/",\
+          "packageDependencies": [\
+            ["date-fns", "npm:2.29.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3243,6 +3253,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.1.3"],\
             ["chart.js", "npm:4.0.1"],\
             ["clsx", "npm:1.2.1"],\
+            ["date-fns", "npm:2.29.3"],\
             ["eslint", "npm:8.28.0"],\
             ["eslint-config-next", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:13.0.4"],\
             ["next", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:13.0.4"],\

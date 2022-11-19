@@ -5,6 +5,7 @@ import ArticleIcon from '@mui/icons-material/Article';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { API_URL, Dataset } from './types';
+import { format } from 'date-fns';
 
 export default function SearchBar({
 	start,
@@ -40,7 +41,7 @@ export default function SearchBar({
 			getOptionLabel={option => option.name}
 			onChange={(event: any, newValue) => {
 				setValue(newValue ? newValue : undefined);
-				newValue && callbackfn(newValue);
+				newValue && newValue.type == 'dataset' && callbackfn(newValue);
 			}}
 			onInputChange={(event, newInputValue) => {
 				setInputValue(newInputValue);
@@ -61,7 +62,10 @@ export default function SearchBar({
 								/>
 							</Grid>
 							<Grid xs>
-								<Typography>{option.name}</Typography>
+								<Typography>
+									{option.name}
+									{option.date ? ` - (${format(option.date * 1e3, 'y')})` : ''}
+								</Typography>
 							</Grid>
 						</Grid>
 					</li>
