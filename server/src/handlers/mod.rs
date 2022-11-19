@@ -24,6 +24,8 @@ pub fn start(_: Request, state: Arc<State>) -> Response {
         "question": question
     });
 
+    println!("start (id={}, start={}, end={})", dataset.id, start, end);
+
     Response::new(StatusCode::OK, json.serialize())
 }
 
@@ -32,7 +34,7 @@ pub fn series(request: Request, state: Arc<State>) -> Response {
         let (id, start, end) = series::parse_query_string(&request.query)?;
 
         let mut data = state.data.lock().unwrap();
-        let dataset = data.get_dataset(id)?;
+        let dataset = data.get_dataset(&id)?;
 
         if start < dataset.start || end > dataset.end {
             return Some(Response::new(StatusCode::BadRequest, "Invalid time range"));
@@ -48,6 +50,8 @@ pub fn series(request: Request, state: Arc<State>) -> Response {
             "points": data
         });
 
+        println!("series (id={}, start={}, end={})", &id, start, end);
+
         Some(Response::new(StatusCode::OK, json.serialize()))
     })
 }
@@ -57,7 +61,7 @@ pub fn point(request: Request, state: Arc<State>) -> Response {
         let (id, year) = point::parse_query_string(&request.query)?;
 
         let mut data = state.data.lock().unwrap();
-        let dataset = data.get_dataset(id)?;
+        let dataset = data.get_dataset(&id)?;
 
         let value = dataset.get_point(year)?;
 
@@ -66,16 +70,18 @@ pub fn point(request: Request, state: Arc<State>) -> Response {
             "value": value
         });
 
+        println!("point (id={}, year={})", &id, year);
+
         Some(Response::new(StatusCode::OK, json.serialize()))
     })
 }
 
 pub fn search(request: Request, state: Arc<State>) -> Response {
     error_context(|| {
-        let (query, _start, _end) = search::parse_query_string(&request.query)?;
+        let (query, start, end) = search::parse_query_string(&request.query)?;
 
         let data = state.data.lock().unwrap();
-        let results = data.search(query);
+        let results = data.search(&query);
 
         let result = results
             .map(|dataset| {
@@ -88,6 +94,8 @@ pub fn search(request: Request, state: Arc<State>) -> Response {
             .collect::<Vec<_>>();
 
         let json = Value::Array(result);
+
+        println!("search (q={}, start={}, end={})", &query, start, end);
 
         Some(Response::new(StatusCode::OK, json.serialize()))
     })

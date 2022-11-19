@@ -41,7 +41,7 @@ impl Data {
 
     pub fn get_dataset(&mut self, id: impl AsRef<str>) -> Option<&Dataset> {
         let dataset = self.datasets.iter_mut().find(|d| d.id == id.as_ref())?;
-        dataset.load_into_memory();
+        dataset.load_into_memory()?;
         Some(dataset)
     }
 
@@ -118,6 +118,8 @@ impl Dataset {
                     result.push((*year, *value));
                 }
             }
+        } else {
+            panic!("Not loaded into memory");
         }
 
         result

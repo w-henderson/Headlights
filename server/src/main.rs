@@ -14,9 +14,13 @@ pub struct State {
 }
 
 fn main() {
+    println!("[info] loading datasets");
+
     let state = State {
-        data: Mutex::new(Data::load(concat!(env!("CARGO_MANIFEST_DIR"), "/datasets")).unwrap()),
+        data: Mutex::new(Data::load(concat!(env!("CARGO_MANIFEST_DIR"), "/out")).unwrap()),
     };
+
+    println!("[info] starting server");
 
     let app: App<State> = App::new_with_config(8, state)
         .with_cors(Cors::wildcard())
