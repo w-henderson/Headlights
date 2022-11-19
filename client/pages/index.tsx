@@ -88,7 +88,7 @@ export default function Home() {
 	}, []);
 
 	const [searchDatasetID, setSearchID] = React.useState('');
-	const [searchDatasetName, setSearchName] = React.useState('loading');
+	const [searchDatasetName, setSearchName] = React.useState('');
 
 	return (
 		<>
@@ -108,6 +108,7 @@ export default function Home() {
 				/>
 			</Container>
 			<Grid container spacing={2} mx={10}>
+				{!searchDatasetID && <Grid md display={{ xs: 'none', md: 'block' }} />}
 				<Grid xs={12} md={9} lg={6}>
 					<Typography variant='h5'>{datasetName}</Typography>
 					{datasetID ? (
@@ -116,14 +117,17 @@ export default function Home() {
 						<Skeleton height='100%' />
 					)}
 				</Grid>
-				<Grid xs={12} md={9} lg={6}>
-					<Typography variant='h5'>{searchDatasetName}</Typography>
-					{searchDatasetID ? (
-						<Graph id={searchDatasetID} start={startYear} end={endYear} />
-					) : (
-						''
-					)}
-				</Grid>
+				{!searchDatasetID && <Grid md display={{ xs: 'none', md: 'block' }} />}
+				{searchDatasetID && (
+					<>
+						<Grid md display={{ xs: 'none', md: 'block', lg: 'none' }} />
+						<Grid xs={12} md={9} lg={6}>
+							<Typography variant='h5'>{searchDatasetName}</Typography>
+							<Graph id={searchDatasetID} start={startYear} end={endYear} />
+						</Grid>
+						<Grid md display={{ xs: 'none', md: 'block', lg: 'none' }} />
+					</>
+				)}
 			</Grid>
 		</>
 	);
