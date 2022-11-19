@@ -35,8 +35,9 @@ export default function Graph({
 	end: number;
 }) {
 	const [dataSeries, setDataSeries] = useState<DataSeries>();
-	const [years, data] = flattenDataSeries(dataSeries ? dataSeries.points : []);
 	useEffect(() => {
+		let ignore = false;
+		console.log('requesting series');
 		axios
 			.get<DataSeries>(new URL('/api/v1/data/series', API_URL).toString(), {
 				params: {
@@ -46,10 +47,16 @@ export default function Graph({
 				},
 			})
 			.then(response => {
-				setDataSeries(response.data);
+				if (!ignore) {
+					setDataSeries(response.data);
+				}
 			})
 			.catch(error => console.error('error in requesting series: ' + error));
+		return () => {
+			ignore = true;
+		};
 	}, [id, start, end]);
+	const [years, data] = flattenDataSeries(dataSeries ? dataSeries.points : []);
 	const chartData: ChartData<'line', number[], number> = {
 		labels: years,
 		datasets: [
