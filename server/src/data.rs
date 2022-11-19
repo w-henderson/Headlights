@@ -173,23 +173,3 @@ impl DataThing for &Dataset {
         })
     }
 }
-
-impl DataThing for &Headline {
-    fn name(&self) -> &str {
-        &self.title
-    }
-
-    fn valid_for_date_range(&self, start: u16, end: u16) -> bool {
-        self.year >= start && self.year <= end
-    }
-
-    fn serialize(&self) -> Value {
-        json!({
-            "type": "article",
-            "id": &self.id,
-            "name": &self.title,
-            "source": &self.source,
-            "date": &self.date
-        })
-    }
-}

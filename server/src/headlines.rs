@@ -1,12 +1,16 @@
 use std::path::Path;
 
+use humphrey_json::prelude::*;
 use humphrey_json::Value;
+
+use crate::data::DataThing;
 
 #[derive(Debug, Clone)]
 pub struct Headline {
     pub id: String,
     pub title: String,
     pub source: String,
+    pub link: String,
     pub date: i64,
     pub year: u16,
 }
@@ -32,10 +36,13 @@ impl Headline {
                     .ok()?
                     .timestamp();
 
+                let full_link = format!("http://news.bbc.co.uk{}", link);
+
                 Some(Headline {
                     id: link.to_string(),
                     title: title.to_string(),
                     source: "BBC".to_string(),
+                    link: full_link,
                     date,
                     year,
                 })
@@ -43,5 +50,26 @@ impl Headline {
         }
 
         Some(result)
+    }
+}
+
+impl DataThing for &Headline {
+    fn name(&self) -> &str {
+        &self.title
+    }
+
+    fn valid_for_date_range(&self, start: u16, end: u16) -> bool {
+        self.year >= start && self.year <= end
+    }
+
+    fn serialize(&self) -> Value {
+        json!({
+            "type": "article",
+            "id": &self.id,
+            "name": &self.title,
+            "source": &self.source,
+            "link": &self.link,
+            "date": &self.date
+        })
     }
 }
