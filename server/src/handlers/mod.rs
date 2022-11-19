@@ -19,6 +19,7 @@ pub fn start(_: Request, state: Arc<State>) -> Response {
     let json = json!({
         "id": &dataset.id,
         "name": &dataset.name,
+        "yAxisName": &dataset.y_axis_name,
         "start": start,
         "end": end,
         "question": question
