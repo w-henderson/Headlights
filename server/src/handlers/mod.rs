@@ -82,7 +82,7 @@ pub fn search(request: Request, state: Arc<State>) -> Response {
 
         let data = state.data.lock().unwrap();
         let result = if query.len() > 2 {
-            data.search(&query, 20)
+            data.search(&query, start, end, 20)
                 .map(|dataset| {
                     json!({
                         "type": "dataset",

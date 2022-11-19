@@ -45,12 +45,22 @@ impl Data {
         Some(dataset)
     }
 
-    pub fn search(&self, query: impl AsRef<str>, limit: usize) -> impl Iterator<Item = &Dataset> {
+    pub fn search(
+        &self,
+        query: impl AsRef<str>,
+        start: u16,
+        end: u16,
+        limit: usize,
+    ) -> impl Iterator<Item = &Dataset> {
         let query = query.as_ref().to_lowercase();
 
         self.datasets
             .iter()
-            .filter(move |d| d.name.to_lowercase().contains(&query))
+            .filter(move |d| {
+                d.name.to_lowercase().contains(&query)
+                    && d.get_point(start).is_some()
+                    && d.get_point(end).is_some()
+            })
             .take(limit)
     }
 }
