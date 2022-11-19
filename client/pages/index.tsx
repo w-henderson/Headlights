@@ -113,14 +113,15 @@ export default function Home() {
 	}, [datasetID]);
 
 	return (
-		<Container maxWidth='lg' sx={{ p: 5 }}>
-			<Typography variant='h3' align='center'>
-				<strong>
-					What is {yAxisName} in {question}?
-				</strong>
-			</Typography>
-			<Grid container spacing={2}>
-				<Grid xs lg={0} />
+		<>
+			<Container maxWidth='lg' sx={{ p: 5 }}>
+				<Typography variant='h3' align='center' gutterBottom>
+					<strong>
+						What is {yAxisName} in {question}?
+					</strong>
+				</Typography>
+			</Container>
+			<Grid container spacing={2} mx={10}>
 				<Grid xs={12} md={9} lg={6}>
 					<Typography variant='h5'>{datasetName}</Typography>
 					{datasetID ? (
@@ -134,13 +135,10 @@ export default function Home() {
 						<Skeleton height='100%' />
 					)}
 				</Grid>
-				<Grid xs lg={0} />
-				<Grid xs lg={0} />
 				<Grid xs={12} md={9} lg={6}>
 					<Typography variant='h2'>Right Column</Typography>
 				</Grid>
-				<Grid xs lg={0} />
 			</Grid>
-		</Container>
+		</>
 	);
 }
