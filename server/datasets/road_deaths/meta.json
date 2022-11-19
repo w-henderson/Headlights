@@ -1,0 +1,6 @@
+{
+  "name": "United States road deaths",
+  "yAxisName": "Deaths",
+  "start": 1900,
+  "end": 2016
+}

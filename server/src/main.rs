@@ -17,7 +17,7 @@ fn main() {
     println!("[info] loading datasets");
 
     let state = State {
-        data: Mutex::new(Data::load(concat!(env!("CARGO_MANIFEST_DIR"), "/out")).unwrap()),
+        data: Mutex::new(Data::load(concat!(env!("CARGO_MANIFEST_DIR"), "/datasets")).unwrap()),
     };
 
     println!("[info] starting server");

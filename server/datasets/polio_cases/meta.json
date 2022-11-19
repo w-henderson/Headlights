@@ -1,0 +1,6 @@
+{
+  "name": "World polio cases",
+  "yAxisName": "Cases per million",
+  "start": 1980,
+  "end": 2015
+}
