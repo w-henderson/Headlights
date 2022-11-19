@@ -81,7 +81,7 @@ pub fn search(request: Request, state: Arc<State>) -> Response {
         let (query, start, end) = search::parse_query_string(&request.query)?;
 
         let data = state.data.lock().unwrap();
-        let results = data.search(&query);
+        let results = data.search(&query, 20);
 
         let result = results
             .map(|dataset| {
