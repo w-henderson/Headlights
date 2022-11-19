@@ -8,7 +8,7 @@ import Copyright from '../src/Copyright';
 import { Paper, Skeleton, Stack } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import axios from 'axios';
-import { DataPoint, DataSeries } from '../src/types';
+import { API_URL, DataPoint, DataSeries } from '../src/types';
 import flattenDataSeries from '../src/flattenDataSeries';
 
 import { Line } from 'react-chartjs-2';
@@ -24,6 +24,7 @@ import {
 } from 'chart.js';
 import theme from '../src/theme';
 import Graph from '../src/Graph';
+import SearchBar from '../src/SearchBar';
 
 ChartJS.register(
 	CategoryScale,
@@ -33,8 +34,6 @@ ChartJS.register(
 	Title,
 	Tooltip
 );
-
-const API_URL = new URL('http://10.248.143.66');
 
 type start = {
 	id: string;
@@ -75,8 +74,8 @@ export default function Home() {
 
 	const [datasetID, setID] = React.useState('');
 	const [datasetName, setName] = React.useState('loading');
-	const [startYear, setStart] = React.useState<number>();
-	const [endYear, setEnd] = React.useState<number>();
+	const [startYear, setStart] = React.useState<number>(2000);
+	const [endYear, setEnd] = React.useState<number>(2004);
 	const [question, setQuestion] = React.useState<number>();
 
 	React.useEffect(() => {
@@ -120,6 +119,7 @@ export default function Home() {
 						What is {yAxisName} in {question}?
 					</strong>
 				</Typography>
+				<SearchBar start={startYear} end={endYear} />
 			</Container>
 			<Grid container spacing={2} mx={10}>
 				<Grid xs={12} md={9} lg={6}>
