@@ -81,17 +81,19 @@ pub fn search(request: Request, state: Arc<State>) -> Response {
         let (query, start, end) = search::parse_query_string(&request.query)?;
 
         let data = state.data.lock().unwrap();
-        let results = data.search(&query, 20);
-
-        let result = results
-            .map(|dataset| {
-                json!({
-                    "type": "dataset",
-                    "id": &dataset.id,
-                    "name": &dataset.name
+        let result = if query.len() > 2 {
+            data.search(&query, 20)
+                .map(|dataset| {
+                    json!({
+                        "type": "dataset",
+                        "id": &dataset.id,
+                        "name": &dataset.name
+                    })
                 })
-            })
-            .collect::<Vec<_>>();
+                .collect::<Vec<_>>()
+        } else {
+            Vec::new()
+        };
 
         let json = Value::Array(result);
 
