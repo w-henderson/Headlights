@@ -11,9 +11,10 @@ export type DataSeries = {
 };
 
 export type Dataset = {
-	type: 'dataset';
+	type: 'dataset' | 'article';
 	id: string;
 	name: string;
+	date?: number;
 };
 
 export const API_URL = new URL('http://10.248.143.66');
