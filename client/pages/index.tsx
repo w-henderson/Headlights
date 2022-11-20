@@ -99,7 +99,7 @@ export default function Home() {
 						setName(response.data.name);
 						setStart(response.data.start);
 						setEnd(response.data.end);
-						setQuestion(response.data.end);
+						setQuestion(response.data.question);
 						setYAxis(response.data.yAxisName);
 
 						setLoading(false);
