@@ -46,7 +46,7 @@ export default function AnswerInput({
 								setValue(newValue as number[]);
 							}}
 							scale={calculateValue}
-							valueLabelDisplay='auto'
+							valueLabelDisplay='on'
 							valueLabelFormat={value => numeral(value).format('0.00a')}
 						/>
 					</Grid>
