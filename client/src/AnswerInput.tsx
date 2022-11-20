@@ -21,12 +21,20 @@ export default function AnswerInput({
 	const [years, data] = useDataSeries(id, start, end);
 	const correctValue = useDataPoint(id, question);
 	const [value, setValue] = useState([-25, 25]);
+
 	const calculateValue = (value: number) => {
 		if (years.length != 0 && data.length != 0) {
 			const min = Math.min(...data);
 			const max = Math.max(...data);
 			const mean = data.reduce((acc, value) => acc + value) / data.length;
-			return (value / 100) * (max - min) * 4 + mean;
+			let factor = 4;
+			while (
+				correctValue! < -0.5 * (max - min) * factor + mean ||
+				correctValue! > 0.5 * (max - min) * factor + mean
+			) {
+				factor++;
+			}
+			return (value / 100) * (max - min) * factor + mean;
 		} else {
 			return value;
 		}
