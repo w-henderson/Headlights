@@ -41,6 +41,11 @@ export default function SearchBar({
 		};
 		// }
 	}, [inputValue, start, end]);
+	useEffect(() => {
+		if (value && value.type == 'article') {
+			window.open(value.link);
+		}
+	}, [value]);
 	return (
 		<Autocomplete
 			filterOptions={x => x}
@@ -56,9 +61,25 @@ export default function SearchBar({
 			renderInput={params => (
 				<TextField
 					{...params}
-					label='Search for a dataset or article'
+					label={inputValue == '' ? 'Search for a dataset or article' : ''}
 					fullWidth
-					style={{ background: theme.palette.background.paper, borderRadius: 16, boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)" }} />
+					sx={{
+						background: theme.palette.background.paper,
+						borderRadius: 4,
+
+						// boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+					}}
+					InputProps={{
+						...params.InputProps,
+						sx: {
+							borderRadius: 4,
+						},
+					}}
+					InputLabelProps={{
+						...params.InputLabelProps,
+						shrink: false,
+					}}
+				/>
 			)}
 			renderOption={(props, option) => {
 				return (

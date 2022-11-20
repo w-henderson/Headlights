@@ -120,7 +120,7 @@ export default function Home() {
 			<Container maxWidth='lg' sx={{ p: 5 }}>
 				<Typography variant='h3' align='center' gutterBottom sx={{ mb: 5 }}>
 					<strong>
-						What is {yAxisName} in {question}? ({score.toFixed(2)})
+						Predict {yAxisName.toLowerCase()} in {question}.
 					</strong>
 				</Typography>
 				<SearchBar
@@ -135,32 +135,18 @@ export default function Home() {
 			<Grid container spacing={5} mx={10} my={5} marginTop={0}>
 				{!searchDatasetID && <Grid md display={{ xs: 'none', md: 'block' }} />}
 				<Grid xs={12} md={9} lg={6}>
-					<Paper sx={{
-						background: theme.palette.background.paper,
-						borderRadius: 4,
-						padding: 2
-					}} elevation={5}>
-						<Typography variant='h5'>{datasetName}</Typography>
-						{datasetID ? (
-							<Graph id={datasetID} start={startYear} end={endYear} />
-						) : (
-							<Skeleton height='100%' />
-						)}
-					</Paper>
+					{datasetID ? (
+						<Graph id={datasetID} start={startYear} end={endYear} />
+					) : (
+						<Skeleton height='100%' />
+					)}
 				</Grid>
 				{!searchDatasetID && <Grid md display={{ xs: 'none', md: 'block' }} />}
 				{searchDatasetID && (
 					<>
 						<Grid md display={{ xs: 'none', md: 'block', lg: 'none' }} />
 						<Grid xs={12} md={9} lg={6}>
-							<Paper sx={{
-								background: theme.palette.background.paper,
-								borderRadius: 4,
-								padding: 2
-							}} elevation={5}>
-								<Typography variant='h5'>{searchDatasetName}</Typography>
-								<Graph id={searchDatasetID} start={startYear} end={endYear} />
-							</Paper>
+							<Graph id={searchDatasetID} start={startYear} end={endYear} />
 						</Grid>
 						<Grid md display={{ xs: 'none', md: 'block', lg: 'none' }} />
 					</>
@@ -183,6 +169,13 @@ export default function Home() {
 				</Grid>
 				{/* <Grid md display={{ xs: 'none', md: 'block' }} /> */}
 			</Grid>
+			<Typography
+				variant='h3'
+				sx={{ position: 'fixed', top: 20, right: 20 }}
+				color={theme.palette.primary.main}
+			>
+				<strong>{(score * 100).toFixed(0)}</strong>
+			</Typography>
 		</>
 	);
 }

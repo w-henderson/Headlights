@@ -1,3 +1,4 @@
+import { Paper, Typography } from '@mui/material';
 import axios from 'axios';
 import {
 	CategoryScale,
@@ -68,25 +69,31 @@ export default function Graph({
 		],
 	};
 	return (
-		<Line
-			data={chartData}
-			options={{
-				responsive: true,
-				plugins: {
-					title: {
-						display: true,
-						text: dataSeries?.name,
-					},
-				},
-				scales: {
-					y: {
-						title: {
-							display: true,
-							text: dataSeries?.yAxisName,
+		<Paper
+			sx={{
+				background: theme.palette.background.paper,
+				borderRadius: 4,
+				padding: 2,
+			}}
+			elevation={3}
+		>
+			<Typography variant='h5' align='center'>
+				{dataSeries?.name}
+			</Typography>
+			<Line
+				data={chartData}
+				options={{
+					responsive: true,
+					scales: {
+						y: {
+							title: {
+								display: true,
+								text: dataSeries?.yAxisName,
+							},
 						},
 					},
-				},
-			}}
-		/>
+				}}
+			/>
+		</Paper>
 	);
 }
