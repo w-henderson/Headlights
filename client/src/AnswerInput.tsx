@@ -1,7 +1,9 @@
-import { Slider, Container, Button } from '@mui/material';
+import { Slider, Container, Button, Paper } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useState } from 'react';
 import { useDataPoint, useDataSeries } from './utils';
+import theme from './theme';
+import numeral from 'numeral';
 
 export default function AnswerInput({
 	id,
@@ -31,38 +33,40 @@ export default function AnswerInput({
 	};
 	return (
 		<Container maxWidth='md'>
-			<Grid container>
-				<Grid>Give your 90% confidence interval:</Grid>
-				<Grid xs>
-					<Slider
-						value={value}
-						min={-50}
-						max={50}
-						disabled={years.length == 0}
-						onChange={(event, newValue: number | number[]) => {
-							setValue(newValue as number[]);
-						}}
-						scale={calculateValue}
-						valueLabelDisplay='on'
-						valueLabelFormat={value => value.toFixed(2)}
-					/>
+			<Paper elevation={3} sx={{ borderRadius: 4 }}>
+				<Grid container spacing={2} alignItems={'center'}>
+					<Grid>Give your 90% confidence interval:</Grid>
+					<Grid xs>
+						<Slider
+							value={value}
+							min={-50}
+							max={50}
+							disabled={years.length == 0}
+							onChange={(event, newValue: number | number[]) => {
+								setValue(newValue as number[]);
+							}}
+							scale={calculateValue}
+							valueLabelDisplay='auto'
+							valueLabelFormat={value => numeral(value).format('0.00a')}
+						/>
+					</Grid>
+					<Grid>
+						<Button
+							disabled={typeof correctValue == 'undefined'}
+							onClick={() => {
+								if (typeof correctValue != 'undefined') {
+									callbackfn(
+										calculateValue(value[0]) < correctValue &&
+											calculateValue(value[1]) > correctValue
+									);
+								}
+							}}
+						>
+							Submit
+						</Button>
+					</Grid>
 				</Grid>
-				<Grid>
-					<Button
-						disabled={typeof correctValue == 'undefined'}
-						onClick={() => {
-							if (typeof correctValue != 'undefined') {
-								callbackfn(
-									calculateValue(value[0]) < correctValue &&
-										calculateValue(value[1]) > correctValue
-								);
-							}
-						}}
-					>
-						Submit
-					</Button>
-				</Grid>
-			</Grid>
+			</Paper>
 		</Container>
 	);
 }

@@ -674,6 +674,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/numeral@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "@types/numeral@npm:2.0.2"
+  checksum: d8b778ef5d1b20cb5919fb2cf41108b324ccfaeccb0238caaf54bd9d4bffbbd57d7b860844f05831fb356a5dc0115b477891531325180a670076036ee1b4a8ca
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.0
   resolution: "@types/parse-json@npm:4.0.0"
@@ -2560,6 +2567,7 @@ __metadata:
     "@mui/material": latest
     "@next/font": latest
     "@types/node": latest
+    "@types/numeral": ^2.0.2
     "@types/react": latest
     axios: ^1.1.3
     chart.js: ^4.0.1
@@ -2568,6 +2576,7 @@ __metadata:
     eslint: latest
     eslint-config-next: latest
     next: latest
+    numeral: ^2.0.6
     react: latest
     react-chartjs-2: ^5.0.1
     react-dom: latest
@@ -2575,6 +2584,13 @@ __metadata:
     typescript: latest
   languageName: unknown
   linkType: soft
+
+"numeral@npm:^2.0.6":
+  version: 2.0.6
+  resolution: "numeral@npm:2.0.6"
+  checksum: 89f011116539692bf53fde380adeb0579623d00f782703c71c0062d4a8686770c404a041ff4eef454de53925a9f75bba1fa52726057b13d40473f707730b07c2
+  languageName: node
+  linkType: hard
 
 "object-assign@npm:^4.1.0, object-assign@npm:^4.1.1":
   version: 4.1.1

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { API_URL, Dataset } from './types';
 import { format } from 'date-fns';
+import theme from './theme';
 
 export default function SearchBar({
 	start,
@@ -40,6 +41,11 @@ export default function SearchBar({
 		};
 		// }
 	}, [inputValue, start, end]);
+	useEffect(() => {
+		if (value && value.type == 'article') {
+			window.open(value.link);
+		}
+	}, [value]);
 	return (
 		<Autocomplete
 			filterOptions={x => x}
@@ -53,7 +59,27 @@ export default function SearchBar({
 				setInputValue(newInputValue);
 			}}
 			renderInput={params => (
-				<TextField {...params} label='Search for a dataset' fullWidth />
+				<TextField
+					{...params}
+					label={inputValue == '' ? 'Search for a dataset or article' : ''}
+					fullWidth
+					sx={{
+						background: theme.palette.background.paper,
+						borderRadius: 4,
+
+						// boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+					}}
+					InputProps={{
+						...params.InputProps,
+						sx: {
+							borderRadius: 4,
+						},
+					}}
+					InputLabelProps={{
+						...params.InputLabelProps,
+						shrink: false,
+					}}
+				/>
 			)}
 			renderOption={(props, option) => {
 				return (
