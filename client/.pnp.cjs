@@ -47,6 +47,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:18.2.0"],\
             ["react-chartjs-2", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:5.0.1"],\
             ["react-dom", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:18.2.0"],\
+            ["simple-statistics", "npm:7.8.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
           ],\
           "linkType": "SOFT"\
@@ -3260,6 +3261,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["react", "npm:18.2.0"],\
             ["react-chartjs-2", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:5.0.1"],\
             ["react-dom", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:18.2.0"],\
+            ["simple-statistics", "npm:7.8.0"],\
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
           ],\
           "linkType": "SOFT"\
@@ -3869,6 +3871,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["call-bind", "npm:1.0.2"],\
             ["get-intrinsic", "npm:1.1.3"],\
             ["object-inspect", "npm:1.12.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["simple-statistics", [\
+        ["npm:7.8.0", {\
+          "packageLocation": "./.yarn/cache/simple-statistics-npm-7.8.0-2ab3e8a001-a26759dd26.zip/node_modules/simple-statistics/",\
+          "packageDependencies": [\
+            ["simple-statistics", "npm:7.8.0"]\
           ],\
           "linkType": "HARD"\
         }]\

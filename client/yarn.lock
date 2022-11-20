@@ -2571,6 +2571,7 @@ __metadata:
     react: latest
     react-chartjs-2: ^5.0.1
     react-dom: latest
+    simple-statistics: ^7.8.0
     typescript: latest
   languageName: unknown
   linkType: soft
@@ -3106,6 +3107,13 @@ __metadata:
     get-intrinsic: ^1.0.2
     object-inspect: ^1.9.0
   checksum: 351e41b947079c10bd0858364f32bb3a7379514c399edb64ab3dce683933483fc63fb5e4efe0a15a2e8a7e3c436b6a91736ddb8d8c6591b0460a24bb4a1ee245
+  languageName: node
+  linkType: hard
+
+"simple-statistics@npm:^7.8.0":
+  version: 7.8.0
+  resolution: "simple-statistics@npm:7.8.0"
+  checksum: a26759dd26849c3c827ae8c681f1e7d9df411e84bbe0dd2e26a1e06bd47acab5a5f71420329e33c066c3a2c27d7cfa2934961ee473284c13926dfcca0b485908
   languageName: node
   linkType: hard
 

@@ -25,6 +25,9 @@ import {
 import theme from '../src/theme';
 import Graph from '../src/Graph';
 import SearchBar from '../src/SearchBar';
+import AnswerInput from '../src/AnswerInput';
+
+import { binomialDistribution, max } from 'simple-statistics';
 
 ChartJS.register(
 	CategoryScale,
@@ -72,6 +75,15 @@ export default function Home() {
 	const [endYear, setEnd] = React.useState<number>(2004);
 	const [question, setQuestion] = React.useState<number>();
 
+	const [attempts, setAttempts] = React.useState(0);
+	const [correct, setCorrect] = React.useState(0);
+
+	const binom = binomialDistribution(attempts, 0.9);
+	const maxBinom = max(binom ? binom : [1]);
+	const score = binom
+		? binomialDistribution(attempts, 0.9)[correct] / maxBinom
+		: 0;
+
 	React.useEffect(() => {
 		let ignore = false;
 		axios
@@ -84,7 +96,7 @@ export default function Home() {
 					setName(response.data.name);
 					setStart(response.data.start);
 					setEnd(response.data.end);
-					setQuestion(response.data.question);
+					setQuestion(response.data.end);
 					setYAxis(response.data.yAxisName);
 				}
 			})
@@ -100,9 +112,9 @@ export default function Home() {
 	return (
 		<>
 			<Container maxWidth='lg' sx={{ p: 5 }}>
-				<Typography variant='h3' align='center' gutterBottom>
+				<Typography variant='h3' align='center' gutterBottom sx={{ mb: 5 }}>
 					<strong>
-						What is {yAxisName} in {question}?
+						What is {yAxisName} in {question}? ({score.toFixed(2)})
 					</strong>
 				</Typography>
 				<SearchBar
@@ -114,7 +126,7 @@ export default function Home() {
 					}}
 				/>
 			</Container>
-			<Grid container spacing={2} mx={10}>
+			<Grid container spacing={5} mx={10} my={5}>
 				{!searchDatasetID && <Grid md display={{ xs: 'none', md: 'block' }} />}
 				<Grid xs={12} md={9} lg={6}>
 					<Typography variant='h5'>{datasetName}</Typography>
@@ -135,6 +147,22 @@ export default function Home() {
 						<Grid md display={{ xs: 'none', md: 'block', lg: 'none' }} />
 					</>
 				)}
+				{/* <Grid md display={{ xs: 'none', md: 'block' }} /> */}
+				<Grid xs={12}>
+					<AnswerInput
+						id={datasetID}
+						start={startYear}
+						end={endYear}
+						question={question ? question : 3000}
+						callbackfn={correct => {
+							if (correct) {
+								setCorrect(prev => prev + 1);
+							}
+							setAttempts(prev => prev + 1);
+						}}
+					/>
+				</Grid>
+				{/* <Grid md display={{ xs: 'none', md: 'block' }} /> */}
 			</Grid>
 		</>
 	);
