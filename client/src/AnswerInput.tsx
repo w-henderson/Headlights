@@ -3,6 +3,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { useState } from 'react';
 import { useDataPoint, useDataSeries } from './utils';
 import theme from './theme';
+import numeral from 'numeral';
 
 export default function AnswerInput({
 	id,
@@ -46,7 +47,7 @@ export default function AnswerInput({
 							}}
 							scale={calculateValue}
 							valueLabelDisplay='auto'
-							valueLabelFormat={value => value.toFixed(2)}
+							valueLabelFormat={value => numeral(value).format('0.00a')}
 						/>
 					</Grid>
 					<Grid>

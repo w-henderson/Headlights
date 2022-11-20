@@ -36,6 +36,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@mui/material", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:5.10.14"],\
             ["@next/font", "npm:13.0.4"],\
             ["@types/node", "npm:18.11.9"],\
+            ["@types/numeral", "npm:2.0.2"],\
             ["@types/react", "npm:18.0.25"],\
             ["axios", "npm:1.1.3"],\
             ["chart.js", "npm:4.0.1"],\
@@ -44,6 +45,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.28.0"],\
             ["eslint-config-next", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:13.0.4"],\
             ["next", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:13.0.4"],\
+            ["numeral", "npm:2.0.6"],\
             ["react", "npm:18.2.0"],\
             ["react-chartjs-2", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:5.0.1"],\
             ["react-dom", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:18.2.0"],\
@@ -953,6 +955,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-18.11.9-d21dd6ec05-cc0aae109e.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:18.11.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/numeral", [\
+        ["npm:2.0.2", {\
+          "packageLocation": "./.yarn/cache/@types-numeral-npm-2.0.2-9d4395fc9c-d8b778ef5d.zip/node_modules/@types/numeral/",\
+          "packageDependencies": [\
+            ["@types/numeral", "npm:2.0.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -3250,6 +3261,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@mui/material", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:5.10.14"],\
             ["@next/font", "npm:13.0.4"],\
             ["@types/node", "npm:18.11.9"],\
+            ["@types/numeral", "npm:2.0.2"],\
             ["@types/react", "npm:18.0.25"],\
             ["axios", "npm:1.1.3"],\
             ["chart.js", "npm:4.0.1"],\
@@ -3258,6 +3270,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint", "npm:8.28.0"],\
             ["eslint-config-next", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:13.0.4"],\
             ["next", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:13.0.4"],\
+            ["numeral", "npm:2.0.6"],\
             ["react", "npm:18.2.0"],\
             ["react-chartjs-2", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:5.0.1"],\
             ["react-dom", "virtual:2cd63a3aacac2d13ea3da83a712921f888c36c3be05661c6d05a874a14a07dc7000b6d8c5649aeae8e81deefd232e6697f5d99b6afb2e2e8b975be75c5a11e01#npm:18.2.0"],\
@@ -3265,6 +3278,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A4.9.3#~builtin<compat/typescript>::version=4.9.3&hash=d73830"]\
           ],\
           "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["numeral", [\
+        ["npm:2.0.6", {\
+          "packageLocation": "./.yarn/cache/numeral-npm-2.0.6-2c27ceaa3c-89f0111165.zip/node_modules/numeral/",\
+          "packageDependencies": [\
+            ["numeral", "npm:2.0.6"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["object-assign", [\

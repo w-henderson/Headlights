@@ -16,6 +16,7 @@ import flattenDataSeries from './flattenDataSeries';
 
 import theme from './theme';
 import { API_URL, DataSeries } from './types';
+import numeral from 'numeral';
 
 ChartJS.register(
 	CategoryScale,
@@ -89,6 +90,9 @@ export default function Graph({
 							title: {
 								display: true,
 								text: dataSeries?.yAxisName,
+							},
+							ticks: {
+								callback: value => numeral(value).format('0.00a'),
 							},
 						},
 					},
