@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Link from '../src/Link';
 import ProTip from '../src/ProTip';
 import Copyright from '../src/Copyright';
-import { Paper, Skeleton, Stack } from '@mui/material';
+import { Fade, Paper, Skeleton, Stack } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import axios from 'axios';
 import { API_URL, DataPoint, DataSeries } from '../src/types';
@@ -79,6 +79,8 @@ export default function Home() {
 
 	const [attempts, setAttempts] = React.useState(0);
 	const [correct, setCorrect] = React.useState(0);
+	const [correctAnim, setCorrectAnim] = React.useState(false);
+	const [lastAnswerCorrect, setLastCorrect] = React.useState(false);
 
 	const binom = binomialDistribution(attempts, 0.9);
 	const maxBinom = max(binom ? binom : [1]);
@@ -111,6 +113,13 @@ export default function Home() {
 			ignore = true;
 		};
 	}, [loading]);
+
+	React.useEffect(() => {
+		const timer1 = setTimeout(() => setCorrectAnim(false), 3000);
+		return () => {
+			clearTimeout(timer1);
+		};
+	}, [correctAnim]);
 
 	const [searchDatasetID, setSearchID] = React.useState('');
 	const [searchDatasetName, setSearchName] = React.useState('');
@@ -159,6 +168,8 @@ export default function Home() {
 						end={endYear}
 						question={question ? question : 3000}
 						callbackfn={correct => {
+							setCorrectAnim(true);
+							setLastCorrect(correct);
 							if (correct) {
 								setCorrect(prev => prev + 1);
 							}
@@ -169,13 +180,16 @@ export default function Home() {
 				</Grid>
 				{/* <Grid md display={{ xs: 'none', md: 'block' }} /> */}
 			</Grid>
-			<Typography
-				variant='h3'
-				sx={{ position: 'fixed', top: 20, right: 20 }}
-				color={theme.palette.primary.main}
-			>
-				<strong>{(score * 100).toFixed(0)}</strong>
-			</Typography>
+			<Fade in={correctAnim} appear={false}>
+				<Typography
+					variant='h3'
+					sx={{ position: 'fixed', top: 20, right: 20 }}
+					color={theme.palette.primary.main}
+				>
+					<strong>{(score * 100).toFixed(0)}</strong> <br />
+					{lastAnswerCorrect ? 'correct!' : 'wrong:('}
+				</Typography>
+			</Fade>
 		</>
 	);
 }
