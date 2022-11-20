@@ -17,4 +17,4 @@ export type Dataset = {
 	date?: number;
 };
 
-export const API_URL = new URL('http://10.248.143.66');
+export const API_URL = new URL('http://10.248.156.229');
