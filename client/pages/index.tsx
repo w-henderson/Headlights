@@ -67,6 +67,8 @@ const example: DataPoint[] = [
 ];
 
 export default function Home() {
+	const [loading, setLoading] = React.useState(true);
+
 	const [yAxisName, setYAxis] = React.useState('');
 
 	const [datasetID, setID] = React.useState('');
@@ -86,25 +88,29 @@ export default function Home() {
 
 	React.useEffect(() => {
 		let ignore = false;
-		axios
-			.get<start>(new URL('/api/v1/start', API_URL).toString())
-			.then(response => {
-				if (!ignore) {
-					console.log(response.data);
-					setID(response.data.id);
-					console.log(`setting name`);
-					setName(response.data.name);
-					setStart(response.data.start);
-					setEnd(response.data.end);
-					setQuestion(response.data.end);
-					setYAxis(response.data.yAxisName);
-				}
-			})
-			.catch(error => console.error('error in start: ' + error));
+		if (loading) {
+			axios
+				.get<start>(new URL('/api/v1/start', API_URL).toString())
+				.then(response => {
+					if (!ignore) {
+						console.log(response.data);
+						setID(response.data.id);
+						console.log(`setting name`);
+						setName(response.data.name);
+						setStart(response.data.start);
+						setEnd(response.data.end);
+						setQuestion(response.data.end);
+						setYAxis(response.data.yAxisName);
+
+						setLoading(false);
+					}
+				})
+				.catch(error => console.error('error in start: ' + error));
+		}
 		return () => {
 			ignore = true;
 		};
-	}, []);
+	}, [loading]);
 
 	const [searchDatasetID, setSearchID] = React.useState('');
 	const [searchDatasetName, setSearchName] = React.useState('');
@@ -159,6 +165,7 @@ export default function Home() {
 								setCorrect(prev => prev + 1);
 							}
 							setAttempts(prev => prev + 1);
+							setLoading(true);
 						}}
 					/>
 				</Grid>
